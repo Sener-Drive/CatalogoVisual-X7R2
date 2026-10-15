@@ -581,6 +581,10 @@
     object-fit:cover;
     display:block;
   }
+  /* Recorte de la UI de Unreal: ajustar --crop-s (zoom) y --crop-x/--crop-y (punto que se conserva) */
+  .crop-ui{--crop-s:1.22;--crop-x:50%;--crop-y:62%;transform:scale(var(--crop-s));transform-origin:var(--crop-x) var(--crop-y);}
+  .caso-lightbox-inner .crop-box{aspect-ratio:16/9;max-height:92vh;overflow:hidden;margin:auto;}
+  .caso-lightbox-inner .crop-box video{object-fit:cover;}
   .caso .mono{
     font-size:0.7rem;
     color:var(--signal-dim);
@@ -1814,6 +1818,14 @@
         <h3 data-i18n="caso4_h3">Estudio de marca vial</h3>
         <p data-i18n="caso4_p">Simulador enfocado a seguridad vial: recorrido en moto de un tramo que replicaba una carretera real de Bizkaia, para estudiar parámetros perceptuales y seleccionar la mejor marca vial entre varias configuraciones.</p>
       </div>
+      <div class="caso">
+        <div class="caso-media">
+          <video data-src="obra-caso.mp4" class="lazy-video crop-ui" autoplay muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate" preload="none"></video>
+        </div>
+        <span class="mono">SEGUIMIENTO DE OBRA</span>
+        <h3 data-i18n="caso5_h3">Simulación de fases de obra</h3>
+        <p data-i18n="caso5_p">Secuencia constructiva del proyecto sobre el entorno 3D: se compara el avance real con el previsto y se revisan las fases antes de ejecutarlas.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1904,6 +1916,11 @@
         clone = document.createElement('video');
         clone.src = src.currentSrc || src.src || src.dataset.src;
         clone.autoplay = true; clone.muted = true; clone.loop = true; clone.playsInline = true; clone.controls = true;
+        if(src.classList.contains('crop-ui')){
+          clone.className = 'crop-ui'; clone.controls = false;
+          const box = document.createElement('div'); box.className = 'crop-box';
+          box.appendChild(clone); inner.appendChild(box); lb.classList.add('open'); return;
+        }
       }else{
         clone = document.createElement('img');
         clone.src = src.src; clone.alt = src.alt || '';
@@ -1968,6 +1985,7 @@
       caso2_h3:"Simulación de protocolos", caso2_p:"Entorno con tráfico y videovigilancia simulados para entrenar la actuación ante emergencias.",
       caso3_h3:"Revisión de alternativas", caso3_p:"Demo directa al equipo técnico del proyecto para comparar soluciones antes de decidir.",
       caso4_h3:"Estudio de marca vial", caso4_p:"Simulador enfocado a seguridad vial: recorrido en moto de un tramo que replicaba una carretera real de Bizkaia, para estudiar parámetros perceptuales y seleccionar la mejor marca vial entre varias configuraciones.",
+      caso5_h3:"Simulación de fases de obra", caso5_p:"Secuencia constructiva del proyecto sobre el entorno 3D: se compara el avance real con el previsto y se revisan las fases antes de ejecutarlas.",
       faq_eyebrow:"Preguntas frecuentes", faq_h2:"Lo que suelen preguntarnos antes de la demo.",
       faq_q0:"¿Sirve para presentaciones públicas e información ciudadana?", faq_a0:'Sí. El entorno se puede proyectar en sesiones informativas o instalarse en un punto de consulta, y el recorrido libre evita la sensación de "render preparado" de las infografías.',
       faq_q1:"¿Qué pasa si el diseño cambia después de la entrega?", faq_a1:"El entorno se regenera a partir del modelo 3D actualizado. Las revisiones de proyecto se incorporan sin rehacer el trabajo desde cero.",
@@ -2021,6 +2039,7 @@
       caso2_h3:"Protocol simulation", caso2_p:"Environment with simulated traffic and CCTV to train emergency response.",
       caso3_h3:"Alternatives review", caso3_p:"Direct demo to the project's technical team to compare solutions before deciding.",
       caso4_h3:"Road marking study", caso4_p:"Road-safety simulator: riding a motorbike through a stretch replicating a real road in Bizkaia, to study perceptual parameters and select the best road marking among several configurations.",
+      caso5_h3:"Construction phase simulation", caso5_p:"The project's construction sequence on the 3D environment: actual progress is compared with the planned schedule and phases are reviewed before they are built.",
       faq_eyebrow:"Frequently asked questions", faq_h2:"What people usually ask before the demo.",
       faq_q0:"Does it work for public presentations and citizen information?", faq_a0:'Yes. The environment can be projected in information sessions or installed at an information point, and free roaming avoids the "staged render" feel of traditional visuals.',
       faq_q1:"What happens if the design changes after delivery?", faq_a1:"The environment is regenerated from the updated 3D model. Project revisions are incorporated without redoing the work from scratch.",
@@ -2074,6 +2093,7 @@
       caso2_h3:"Simulação de protocolos", caso2_p:"Ambiente com tráfego e videovigilância simulados para treinar a atuação em emergências.",
       caso3_h3:"Revisão de alternativas", caso3_p:"Demo direta à equipa técnica do projeto para comparar soluções antes de decidir.",
       caso4_h3:"Estudo de marca viária", caso4_p:"Simulador focado na segurança viária: percurso de moto num trecho que replicava uma estrada real de Biscaia, para estudar parâmetros percetuais e selecionar a melhor marca viária entre várias configurações.",
+      caso5_h3:"Simulação de fases de obra", caso5_p:"Sequência construtiva do projeto sobre o ambiente 3D: compara-se o avanço real com o previsto e revêem-se as fases antes de as executar.",
       faq_eyebrow:"Perguntas frequentes", faq_h2:"O que costumam perguntar antes da demo.",
       faq_q0:"Serve para apresentações públicas e informação ao cidadão?", faq_a0:'Sim. O ambiente pode ser projetado em sessões informativas ou instalado num ponto de consulta, e o percurso livre evita a sensação de "render preparado" das infografias.',
       faq_q1:"O que acontece se o projeto mudar depois da entrega?", faq_a1:"O ambiente é regenerado a partir do modelo 3D atualizado. As revisões de projeto são incorporadas sem refazer o trabalho do zero.",
